@@ -43,8 +43,9 @@
     {
       "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
+        "api-reference/endpoint/StateTinCreation",
         "api-reference/endpoint/create",
+        "api-reference/endpoint/get",
         "api-reference/endpoint/update",
         "api-reference/endpoint/delete"
       ]

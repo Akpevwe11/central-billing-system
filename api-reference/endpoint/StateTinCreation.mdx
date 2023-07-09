@@ -1,0 +1,59 @@
+---
+title: "StateTinCreation"
+api: "POST /api/v1/statetin/create"
+description: "This web service call will be used by the integrating system to create a state TIN in CBS."
+---
+
+### Body
+
+<ParamField body="name" type="string">
+  Taxpayer Name
+</ParamField>
+
+<ParamField body="PhoneNumber" type="string">
+  Taxpayer phone number
+</ParamField>
+
+<ParamField body="Email" type="string">
+  Taxpayer Email
+</ParamField>
+
+<ParamField body="Address" type="string">
+  address Taxpayer
+</ParamField>
+
+<ParamField body="StateCode" type="string">
+  State code
+</ParamField>
+
+<ParamField body="LGACode" type="string">
+ Taxpayer LGA code
+</ParamField>
+
+<ParamField body="PayerCategory" type="Integer">
+ Taxpayer category
+</ParamField>
+
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://uat.nasarawaigr.com/api/v1/statetin/create' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "Name": "Test Name",
+    "PhoneNumber": "08012345678",
+    "Email": "test@test.com",
+    "Address": "Testing address, Karu, Nasarawa",
+    "StateCode": "NAS", 
+    "LGACode": "Karu",
+    "PrayerCategory": 1
+   
+}'
+```
+
+</RequestExample>
+
+ 
+ 
