@@ -44,6 +44,8 @@
       "group": "Endpoint Examples",
       "pages": [
         "api-reference/endpoint/StateTinCreation",
+        "api-reference/endpoint/StateTinSearch",
+        "api-reference/endpoint/CreateInvoice", 
         "api-reference/endpoint/create",
         "api-reference/endpoint/get",
         "api-reference/endpoint/update",

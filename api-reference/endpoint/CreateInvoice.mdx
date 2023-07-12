@@ -1,0 +1,26 @@
+---
+title: "CreateInvoice"
+api: "POST '/api/v1/invoice/create"
+description: "This web service call will be used by the integrating system to create an invoice in CBS"
+---
+
+### Body
+
+<ParamField body="RevenueHeadId" type="Integer" required>
+  Identifier of the revenue head you want to generate an invoice for 
+</ParamField>
+
+<ParamField body="Payer ID" type="string" required>
+  This is the State TIN generated during enumeration 
+</ParamField>
+
+<ParamField body="Amount" type="decimal(2)" required>
+  Invoice amount to be generate. For cases 
+  where you are not required to send an amount, kindly send 0.00 as 
+  the amount and use the seam in your signature concantenation 
+</ParamField>
+
+<ParamField body="CallBackURL" type="string" required>
+  Call back URL for payment notification 
+</ParamField>
+
