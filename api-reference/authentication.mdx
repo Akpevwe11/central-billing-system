@@ -3,20 +3,159 @@ title: "Authentication"
 description: "Example overview page before API endpoints"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et eros iaculis tortor dapibus cursus. Curabitur quis sapien nec tortor dictum gravida.
+### Authentication For Web service Request
+`client ID` and `Client Secret` must be included in every request. 
+The authentication process involves setting these parameters in the authorization header of each request to ensure 
+restricted access.
+
+### Client ID and Client Secret
+The `client ID` and `client secret` are unique identifiers assigned to each authorized platform. 
+These credentials are essential for authentication. These credentials are typically provided by the CBS platform administrator
 
 ```bash
 'Authorization': 'Token <team_token>'
 ```
 
-## API Tokens
+### Security Considerations
+The `client ID` and `client secret` are sensitive information that must be securely stored and transmitted. 
+It is important to implement appropriate security measures, such as encryption and secure storage, to prevent
+ unauthorized access or exposure of these credentials.
 
-Nullam convallis mauris at nunc consectetur, ac imperdiet leo rutrum. Maecenas cursus purus a pellentesque blandit. Pellentesque vitae lacinia libero, non mollis metus.
+### Signature Generation Guide 
 
-Nam id ullamcorper urna, at rutrum enim. [Maecenas vulputate](/introduction) vehicula libero, vitae sodales augue pretium nec. Quisque a magna tempor, semper risus vel, fermentum nunc. Pellentesque fermentum interdum ex, eu convallis massa blandit sed. Aliquam bibendum ipsum vel laoreet auctor.
+1. Identify the data elements required for signature generation. typically, you'll need two values:
 
-### Permissions
+- `concatValue`: The data to be used for signature generation (see the API referencing section to get information on how to get this value for each endpoint)
+- `secret_key`: The secret key or secret value (string)
 
-Etiam lobortis ut odio ut fermentum. Nunc odio velit, sollicitudin at consectetur id, tristique eget turpis. Aliquam at risus vitae dolor sodales venenatis. In hac habitasse platea dictumst.
+2. Convert the `concatValue` and `secret_key` `strings` to byte arrays using UTF-8 encoding.
+ This step is necessary to ensure the data is in the correct format for cryptographic operations.
 
-Aenean consequat diam eget mollis fermentum. [Quisque eu malesuada](/introduction) felis, non dignissim libero.
+ you can convert the strings to byte arrays as follows:
+
+<CodeGroup>
+
+```csharp index.cs
+byte[] keyByte = Encoding.UTF8.GetBytes(concatValue);
+byte[] messageBytes = Encoding.UTF8.GetBytes(secret_key);
+
+```
+```php index.php 
+$keyByte = utf8_encode($concatValue);
+$messageBytes = utf8_encode($secret_key);
+```
+```js 
+```
+
+</CodeGroup>
+
+
+3. Use the HMACSHA256 algorithm to compute the hash of the data using the secret key.
+
+you can compute the hash as follows:
+
+<CodeGroup>
+```csharp index.cs
+byte[] hashmessage = new HMACSHA256(keyByte).ComputeHash(messageBytes);
+
+```
+
+```php index.php 
+$keyByte = ...; // Byte array of the key
+$messageBytes = ...; // Byte array of the message
+
+$hashmessage = hash_hmac('sha256', $messageBytes, $keyByte, true);
+
+```
+</CodeGroup>
+
+
+4. Convert the hash to lowercase hexits, which means representing each byte of the hash as a two-character lowercase hexadecimal value.
+
+you can convert the hash to lowercase hexits as follows:
+
+```csharp index.cs 
+string lowercaseHexits = String.Concat(Array.ConvertAll(hashmessage, x => x.ToString("x2")));
+
+```
+
+5. Convert the hash to a Base64 string representation.
+
+ you can convert the hash to a Base64 string as follows:
+
+```cshap index.cs 
+string signature = Convert.ToBase64String(hashmessage);
+
+```
+
+with your `secret_key`  and  `concatValue` , you can run the following c# code to calculate the signature:
+
+<CodeGroup>
+
+```cshap index.cs 
+
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
+public class Program
+{
+    public static string GenerateSignature(string secret_key, string concatValue)
+    {
+        byte[] keyByte = Encoding.UTF8.GetBytes(secret_key);
+        byte[] messageBytes = Encoding.UTF8.GetBytes(concatValue);
+
+        byte[] hashmessage = new HMACSHA256(keyByte).ComputeHash(messageBytes);
+
+        string lowercaseHexits = String.Concat(Array.ConvertAll(hashmessage, x => x.ToString("x2")));
+
+        string signature = Convert.ToBase64String(hashmessage);
+
+        return signature;
+    }
+
+    public static void Main()
+    {
+        string concatValue = "your_data_value";
+        string secret_key = "your_secret_key";
+
+        string signature = GenerateSignature(concatValue, secret_key);
+
+        Console.WriteLine("Generated Signature: " + signature);
+    }
+}
+
+
+
+```
+</CodeGroup>
+
+The following example shows the final request that includes the Authorization header:
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST ' http://URL/api/v1/report/collection-report' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Client-ID $client_id, Signature $signature' \
+--data-raw  '{
+"FromRange": "07/11/2021",
+ "EndRange": "12/11/2021", 
+ "paymentRef": "",
+"RevenueHeadId": "3539",
+"MDAId": 0,
+"PaymentProvider": "0", 
+"InvoiceNumber": "", 
+"ReceiptNumber": "",
+"BankCode": "",
+"PaymentDirection": "PaymentDate", 
+   "Pager": {
+"Page": 1,
+"PageSize": 100 
+  }
+}'
+
+```
+
+</RequestExample>
+

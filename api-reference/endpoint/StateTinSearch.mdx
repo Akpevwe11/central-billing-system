@@ -1,8 +1,17 @@
 ---
 title: "StateTinSearch"
-api: "POST '/api/v1/user/search-by-filter"
+api: "POST /api/v1/user/search-by-filter"
 description: "This web service call will be used by the integrating system to create a state TIN in CBS."
 ---
+
+### Header 
+<ParamField body="signature" type="string" required>
+  HMACSHA256 hash of the serialized request model.
+</ParamField>
+
+<ParamField body="secret_key" type="string" required>
+It is a unique identifier that is assigned to each registered client/application that wants to use the API.
+</ParamField>
 
 ### Body
 
@@ -42,7 +51,7 @@ State TIN on the tax profile
 ```bash Example Request
 curl --location --request POST 'https://uat.nasarawaigr.com/api/v1/user/search-by-filter' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
+--header 'Authorization: Client-ID $client_id, Signature $signature' \
 --data-raw '{
     "Name": "Test Name",
     "PhoneNumber": "08012345678",

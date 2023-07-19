@@ -1,10 +1,18 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "CBS Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
+   "api":{
+     "baseUrl": "https://uat.nasarawaigr.com",
+     "auth": {
+        "method": "basic",
+        "name": "signature:client_id"
+        
+     }
+   },
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#12A7D3",
@@ -46,6 +54,9 @@
         "api-reference/endpoint/StateTinCreation",
         "api-reference/endpoint/StateTinSearch",
         "api-reference/endpoint/CreateInvoice", 
+        "api-reference/endpoint/PaymentCollectionReport",
+        "api-reference/endpoint/InvoiceValidation",
+        "api-reference/endpoint/PaymentNotification",
         "api-reference/endpoint/create",
         "api-reference/endpoint/get",
         "api-reference/endpoint/update",
