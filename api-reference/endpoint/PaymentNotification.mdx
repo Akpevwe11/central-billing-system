@@ -65,7 +65,8 @@ It is a unique identifier that is assigned to each registered client/application
 ```bash Example Request
 curl --location --request POST ' http://URL/api/v1/report/collection-report' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Client-ID $client_id, Signature $signature' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
 --data-raw  '{
  "InvoiceNumber": "1000425618", 
  "PaymentRef": "65454879865542415512", 

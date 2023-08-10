@@ -53,7 +53,8 @@ It is a unique identifier that is assigned to each registered client/application
 ```bash Example Request
 curl --location --request POST 'https://uat.nasarawaigr.com/api/v1/statetin/create' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Client-ID $client_id, Signature $signature' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
 --data-raw '{
     "Name": "Test Name",
     "PhoneNumber": "08012345678",

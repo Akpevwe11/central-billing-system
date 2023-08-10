@@ -12,9 +12,7 @@ restricted access.
 The `client ID` and `client secret` are unique identifiers assigned to each authorized platform. 
 These credentials are essential for authentication. These credentials are typically provided by the CBS platform administrator
 
-```bash
-'Authorization': 'Token <team_token>'
-```
+
 
 ### Security Considerations
 The `client ID` and `client secret` are sensitive information that must be securely stored and transmitted. 
@@ -31,68 +29,12 @@ It is important to implement appropriate security measures, such as encryption a
 2. Convert the `concatValue` and `secret_key` `strings` to byte arrays using UTF-8 encoding.
  This step is necessary to ensure the data is in the correct format for cryptographic operations.
 
- you can convert the strings to byte arrays as follows:
-
-<CodeGroup>
-
-```csharp index.cs
-byte[] keyByte = Encoding.UTF8.GetBytes(concatValue);
-byte[] messageBytes = Encoding.UTF8.GetBytes(secret_key);
-
-```
-```php index.php 
-$keyByte = utf8_encode($concatValue);
-$messageBytes = utf8_encode($secret_key);
-```
-```js 
-```
-
-</CodeGroup>
-
-
-3. Use the HMACSHA256 algorithm to compute the hash of the data using the secret key.
-
-you can compute the hash as follows:
-
-<CodeGroup>
-```csharp index.cs
-byte[] hashmessage = new HMACSHA256(keyByte).ComputeHash(messageBytes);
-
-```
-
-```php index.php 
-$keyByte = ...; // Byte array of the key
-$messageBytes = ...; // Byte array of the message
-
-$hashmessage = hash_hmac('sha256', $messageBytes, $keyByte, true);
-
-```
-</CodeGroup>
-
-
-4. Convert the hash to lowercase hexits, which means representing each byte of the hash as a two-character lowercase hexadecimal value.
-
-you can convert the hash to lowercase hexits as follows:
-
-```csharp index.cs 
-string lowercaseHexits = String.Concat(Array.ConvertAll(hashmessage, x => x.ToString("x2")));
-
-```
-
-5. Convert the hash to a Base64 string representation.
-
- you can convert the hash to a Base64 string as follows:
-
-```cshap index.cs 
-string signature = Convert.ToBase64String(hashmessage);
-
-```
-
+ 
 with your `secret_key`  and  `concatValue` , you can run the following c# code to calculate the signature:
 
 <CodeGroup>
 
-```cshap index.cs 
+```cs csharp 
 
 using System;
 using System.Security.Cryptography;
@@ -128,6 +70,41 @@ public class Program
 
 
 ```
+```java java
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
+
+public class ApiSecurityExample {
+  public static void main(String[] args) {
+    try {
+     String secret = "secret";
+     String message = "Message";
+
+     Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+     SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+     sha256_HMAC.init(secret_key);
+
+     String hash = Base64.encodeBase64String(sha256_HMAC.doFinal(message.getBytes()));
+     System.out.println(hash);
+    }
+    catch (Exception e){
+     System.out.println("Error");
+    }
+   }
+}
+```
+```py python 
+import hashlib
+import hmac
+import base64
+
+message = bytes('Message', 'utf-8')
+secret = bytes('secret', 'utf-8')
+
+signature = base64.b64encode(hmac.new(secret, message, digestmod=hashlib.sha256).digest())
+print(signature)
+```
 </CodeGroup>
 
 The following example shows the final request that includes the Authorization header:
@@ -137,7 +114,8 @@ The following example shows the final request that includes the Authorization he
 ```bash Example Request
 curl --location --request POST ' http://URL/api/v1/report/collection-report' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Client-ID $client_id, Signature $signature' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
 --data-raw  '{
 "FromRange": "07/11/2021",
  "EndRange": "12/11/2021", 

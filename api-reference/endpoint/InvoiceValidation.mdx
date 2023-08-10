@@ -18,7 +18,8 @@ contentType: "application/json"
 ```bash Example Request
 curl --location --request POST ' http://URL/api/v1/invoice/validate' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Client-ID $client_id, Signature $signature' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
 --data-raw  '{
  "InvoiceNumber": "add invoice number", 
 }'

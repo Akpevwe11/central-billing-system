@@ -51,7 +51,8 @@ State TIN on the tax profile
 ```bash Example Request
 curl --location --request POST 'https://uat.nasarawaigr.com/api/v1/user/search-by-filter' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Client-ID $client_id, Signature $signature' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
 --data-raw '{
     "Name": "Test Name",
     "PhoneNumber": "08012345678",

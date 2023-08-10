@@ -38,7 +38,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["introduction"]
     },
     {
       "group": "Essentials",
@@ -56,11 +56,8 @@
         "api-reference/endpoint/CreateInvoice", 
         "api-reference/endpoint/PaymentCollectionReport",
         "api-reference/endpoint/InvoiceValidation",
-        "api-reference/endpoint/PaymentNotification",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/PaymentNotification"
+     
       ]
     }
   ],
