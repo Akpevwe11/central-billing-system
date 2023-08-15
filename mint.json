@@ -21,7 +21,7 @@
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
+      "name": "Product Overview",
       "url": "https://mintlify.com/docs"
     }
   ],
@@ -39,6 +39,10 @@
     {
       "group": "Get Started",
       "pages": ["index"]
+    },
+    {
+      "group": "Concepts",
+      "pages": ["concepts/Integrationguides"]
     },
     {
       "group": "Essentials",
