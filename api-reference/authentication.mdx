@@ -29,6 +29,11 @@ It is important to implement appropriate security measures, such as encryption a
 2. Convert the `concatValue` and `secret_key` `strings` to byte arrays using UTF-8 encoding.
  This step is necessary to ensure the data is in the correct format for cryptographic operations.
 
+
+ <Warning>Note that the order in which you arrange the `concatValue` matters. </Warning>
+
+
+
  
 with your `secret_key`  and  `concatValue` , you can run the following c# code to calculate the signature:
 

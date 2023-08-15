@@ -8,8 +8,7 @@
    "api":{
      "baseUrl": "https://uat.nasarawaigr.com",
      "auth": {
-        "method": "basic",
-        "name": "signature:client_id"
+       
         
      }
    },

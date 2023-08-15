@@ -7,7 +7,7 @@ description: 'Welcome! With our APIs, you can create invoice, validate invoice, 
 
 ### Getting Started With CBS 
 
-The given `client_id` and `Client Secret` will be used along side other information to create a request header for the different end points. 
+The given `client_id` and `Client Secret` will be used along side other parameters to create a request header for the different end points. 
 the `Client Secret` is combined with other information from the request body and passed through an encryption algorithm to create a header signature.
 The `client_id` and `signature` are used together as header parameters when making request to any of CBS endpoints.
 
@@ -129,8 +129,33 @@ curl --location --request POST ' http://URL/api/v1/invoice/validate' \
 --header 'ClientID: $client_id' \
 --header 'Signature: $signature' \
 --data-raw  '{
- "InvoiceNumber": "add invoice number", 
+ "InvoiceNumber": "1000372608", 
 }'
+
+
+```
+
+you can also use the `PaymentNotification` endpoint to notify CBS of payment against an invoice by using the 
+`InvoiceNumber` from the response obtained when the `CreateInvoice` endpoint was called.
+
+```bash Example Request
+curl --location --request POST ' http://URL/api/v1/report/collection-report' \
+--header 'Content-Type: application/json' \
+--header 'ClientID: $client_id' \
+--header 'Signature: $signature' \
+--data-raw  '{
+ "InvoiceNumber": "1000425618", 
+ "PaymentRef": "65454879865542415512", 
+ "PaymentDate": "30/03/2018 17:45:04",
+ "BankCode": "050", 
+ "BankName": "Eco Bank", 
+ "BankBranch": "Yaba, Alagomeji", 
+ "AmountPaid": "1000.25",
+ "TransactionDate": "29/05/2019 17:45:04", 
+ "Channel": "Bank Branch", 
+ "PaymentMethod": "Inter-transfer",
+}'
+
 
 
 ```

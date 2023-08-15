@@ -5,13 +5,16 @@ description: "This web service call will be used by the integrating system to cr
 ---
 
 ### Header 
-<ParamField body="signature" type="string" required>
+<ParamField header="signature" type="string" required>
   HMACSHA256 hash of the serialized request model.
 </ParamField>
 
-<ParamField body="secret_key" type="string" required>
+<ParamField header="secret_key" type="string" required>
 It is a unique identifier that is assigned to each registered client/application that wants to use the API.
 </ParamField>
+
+
+ <Warning>Note that the order in which you arrange the `concatValue` matters. </Warning>
 
 ### Body
 
